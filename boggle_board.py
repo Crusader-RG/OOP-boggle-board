@@ -101,5 +101,58 @@ class BoggleBoard_gen2(BoggleBoard_gen1):
       print(self.board[k])
 
 
-game1 = BoggleBoard_gen2("game1")
+# game1 = BoggleBoard_gen2("game1")
+# game1.shake()
+
+#final refactor
+class Boggleboard_gen3(BoggleBoard_gen1):
+
+  #create dictionary to reference 16 dice
+  ltr_dict = {
+    1: list("AAEEGN"),
+    2: list("ELRTTY"),
+    3: list("AOOTTW"),
+    4: list("ABBJOO"),
+    5: list("EHRTVW"),
+    6: list("CIMOTU"),
+    7: list("DISTTY"),
+    8: list("EIOSST"),
+    9: list("DELRVY"),
+    10: list("ACHOPS"),
+    11: list("HIMNQU"),
+    12: list("EEINSU"),
+    13: list("EEGHNW"),
+    14: list("AFFKPS"),
+    15: list("HLNNRZ"),
+    16: list("DEILRX")  
+    }
+
+  #initialize using parent gen1
+  def __init__(self, name):
+    super().__init__(name)
+    self.board = []
+
+  def shake(self):
+    #create a list from 1-16 in random order
+    random_indices = random.sample(range(1,17),16)
+    for i in range(0,16,4):
+      #count through indices 0 to 15 by 4's
+      row = []
+      #count through indices 4 at a time 0,1,2,3 then 4,5,...
+      for j in range(i,i + 4):
+        #assign random number to pull from key-value pair
+        num = random.randint(0,5)
+        #add to row 4 times, takes the random int in positions 0,1,2,3
+        #of the random_indices list, matches that to the dict key, then
+        #randomly assigns a letter from the list in the value position 
+        row.append(self.ltr_dict[random_indices[j]][num])
+      #takes the row list PER i, makes a string with space separation, and then 
+      #adds it to self.board
+      self.board.append(" ".join(row))
+    #prints each row of self.board
+    for row in self.board:
+      print(row)
+
+game1 = Boggleboard_gen3("game1")
 game1.shake()
+print(game1.board)
